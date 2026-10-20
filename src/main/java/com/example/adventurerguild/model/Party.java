@@ -10,6 +10,10 @@ public class Party {
 		members.add(adventurer);
 	}
 
+	public void clearMember(){
+		members.clear();
+	}
+
 	public List<Adventurer> getMembers(){
 		return members;
 	}

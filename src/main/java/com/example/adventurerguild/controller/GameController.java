@@ -6,7 +6,7 @@ import org.springframework.http.HttpStatusCode;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
-
+import com.example.adventurerguild.service.GameService;
 import com.example.adventurerguild.model.Adventurer;
 import com.example.adventurerguild.model.Party;
 import com.example.adventurerguild.model.Guild;
@@ -24,17 +24,15 @@ public class GameController {
 
 	private Guild guild = new Guild();
 	private Party party = new Party();
+	private final GameService gameService;
 
-	public GameController(){
-		guild.addAdventurer(new Adventurer(1, "アレン", 10));
-		guild.addAdventurer(new Adventurer(2, "リナ",8));
-		guild.addAdventurer(new Adventurer(3, "ガルド", 12));
-		guild.addAdventurer(new Adventurer(4, "アマンダ", 9));
+	public GameController(GameService gameService){
+		this.gameService = gameService;
 	}
 
 	@GetMapping("/api/adventurers")
 	public List<Adventurer> getAdventurers() {
-		return guild.getAdventurers();
+		return gameService.getAdventurers();
 	}
 	
 

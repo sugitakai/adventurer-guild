@@ -38,12 +38,13 @@ public class GameController {
 
 	@GetMapping("/api/game")
 	public Map<String, Object> getGameStatus() {
+		Party result = gameService.getParty();
 		return Map.of(
 				"gameName", "冒険者ギルド運営シミュレーター",
 				"day", 1,
 				"gold", 500,
-				"members", party.getMembers(),
-				"totalPower", party.getTotalPower(),
+				"members", result.getMembers(),
+				"totalPower", result.getTotalPower(),
 				"message", "ギルド運営を開始できます！"
 			);
 	}
@@ -51,31 +52,11 @@ public class GameController {
 	@PostMapping("/api/party")
 	public Map<String, Object> createParty(@RequestBody List<Integer> ids) {
 		
-		Party newParty = new Party();
-		
-		for(int id : ids){
-			Adventurer adventurer = guild.findAdventurerById(id);
-
-			if (adventurer == null) {
-				throw new ResponseStatusException(
-					HttpStatus.BAD_REQUEST,
-					"冒険者ID" + id + "は存在しません"
-				);
-			}
-			if (newParty.getMembers().contains(adventurer)) {
-				throw new ResponseStatusException(
-					HttpStatus.BAD_REQUEST,
-					"同じ冒険者を重視して編成できません"
-				);
-			}
-			newParty.addMember(adventurer);
-		}
-
-		this.party = newParty;
+		Party result = gameService.createParty(ids);
 
 		return Map.of(
-			"members", party.getMembers(),
-			"totalPower", party.getTotalPower()
+			"members", result.getMembers(),
+			"totalPower", result.getTotalPower()
 		);
 	}
 	

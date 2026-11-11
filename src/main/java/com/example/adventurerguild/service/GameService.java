@@ -38,4 +38,8 @@ public class GameService {
 		return newParty;
 		
 	}
+	
+	public Party getParty() {
+		return party;
+	}
 }
